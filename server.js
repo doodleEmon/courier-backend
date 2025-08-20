@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js'
+import userRoute from './routes/userRoutes.js'
 
 
 // Initialize dotenv to use environment variables
@@ -17,6 +18,9 @@ const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send('Courier Management System API is running...');
 });
+
+// Mount the user routes
+app.use('/api/users', userRoute);
 
 // Start the server and listen for incoming requests
 app.listen(PORT, () => {

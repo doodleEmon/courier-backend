@@ -15,12 +15,6 @@ const userSchema = new mongoose.Schema(
                 'Please add a valid email',
             ],
         },
-        phone: {
-            type: String,
-            required: [true, 'Phone number is required'],
-            unique: true,
-            match: [/^(\+88)?01[3-9]\d{8}$/, 'Please enter a valid Bangladeshi phone number']
-        },
         password: {
             type: String,
             required: [true, 'Please add a password'],
@@ -38,4 +32,5 @@ const userSchema = new mongoose.Schema(
 );
 
 // Create and export the User model
-module.exports = mongoose.model('User', userSchema);;
+const User = mongoose.model('User', userSchema);
+export default User;
