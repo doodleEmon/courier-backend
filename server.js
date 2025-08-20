@@ -3,16 +3,14 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/database.js'
 import userRoute from './routes/userRoutes.js'
 
-
-// Initialize dotenv to use environment variables
 dotenv.config();
-
-// connect to database
 connectDB();
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
 
 // A simple test route to check if the server is working
 app.get('/', (req, res) => {

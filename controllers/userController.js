@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
 
         // 1. Validation: Check if all fields are provided
         if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Please enter all fields' });
+            return res.status(400).json({ message: 'Please enter all required fields' });
         }
 
         // 2. Check if user already exists
@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            role, // Role can be 'Customer', 'Delivery Agent', or 'Admin'
+            role, // Role can be 'Customer', 'Agent', or 'Admin'
         });
 
         // 5. If user created successfully, send back user data and a token
@@ -54,4 +54,34 @@ const registerUser = async (req, res) => {
     }
 };
 
-export default registerUser;
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // 1. Validation
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
+        }
+
+        // 2. Find user by email
+        const user = await User.findOne({ email });
+
+        // 3. Check user existence & password match
+        if (user && (await bcrypt.compare(password, user.password))) {
+            res.status(200).json({
+                _id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id),
+            });
+        } else {
+            res.status(401).json({ message: 'Invalid email or password' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};
+
+
+export { registerUser, loginUser };
