@@ -75,8 +75,15 @@ export const updateParcelStatus = async (req, res) => {
         parcel.currentLocation = { latitude, longitude };
         await parcel.save();
 
-        // TODO: Emit real-time update using Socket.IO here
-        // Example: io.emit('parcelStatusUpdate', { parcelId: parcel._id, status: parcel.status });
+        // Get the `io` instance from the request
+        const io = req.app.get('socketio');
+
+        // Emit a real-time update
+        io.emit('parcelStatusUpdate', {
+            parcelId: parcel._id,
+            status: parcel.status,
+            currentLocation: parcel.currentLocation,
+        });
 
         res.status(200).json(parcel);
     } catch (error) {
