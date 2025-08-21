@@ -1,14 +1,6 @@
 import User from '../models/userModel.js';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-
-
-// Helper function to generate a JWT
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '7d', // Token expires in 7 days
-    });
-};
+import { generateToken } from '../utils/generateToken.js';
 
 const registerUser = async (req, res) => {
     try {
