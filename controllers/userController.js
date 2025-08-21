@@ -12,10 +12,10 @@ const generateToken = (id) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, phone, password, role } = req.body;
 
         // 1. Validation: Check if all fields are provided
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !phone) {
             return res.status(400).json({ message: 'Please enter all required fields' });
         }
 
@@ -33,6 +33,7 @@ const registerUser = async (req, res) => {
         const user = await User.create({
             name,
             email,
+            phone,
             password: hashedPassword,
             role, // Role can be 'Customer', 'Agent', or 'Admin'
         });
@@ -43,6 +44,7 @@ const registerUser = async (req, res) => {
                 _id: user.id,
                 name: user.name,
                 email: user.email,
+                phone: user.phone,
                 role: user.role,
                 token: generateToken(user._id),
             });
@@ -72,6 +74,7 @@ const loginUser = async (req, res) => {
                 _id: user.id,
                 name: user.name,
                 email: user.email,
+                phone: user.phone,
                 role: user.role,
                 token: generateToken(user._id),
             });

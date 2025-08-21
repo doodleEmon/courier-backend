@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 // Mount the user routes
-app.use('/api/users', userRoute);
+app.use('/api/auth', userRoute);
 
 // Start the server and listen for incoming requests
 app.listen(PORT, () => {
