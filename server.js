@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     res.send('Courier Management System API is running...');
 });
 
-// Mount the user routes
+// Mount the routes
 app.use('/api/auth', userRoute);
 app.use('/api/parcel', parcelRoute);
 
