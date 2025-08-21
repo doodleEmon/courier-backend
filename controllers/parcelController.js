@@ -1,14 +1,14 @@
 import Parcel from "../models/parcelModel.js";
-import User from "../models/userModel.js"; // Assuming you have a User model
+import User from "../models/userModel.js";
 
 // @desc    Create a new parcel
-// @route   POST /api/parcels
+// @route   POST /api/parcel
 // @access  Private/Customer
 export const createParcel = async (req, res) => {
     try {
         const newParcel = await Parcel.create({
             ...req.body,
-            customerId: req.user._id, // Set the customer ID from the authenticated user
+            customerId: req.user._id,
         });
         res.status(201).json(newParcel);
     } catch (error) {
@@ -17,7 +17,7 @@ export const createParcel = async (req, res) => {
 };
 
 // @desc    Get all parcels for a customer
-// @route   GET /api/parcels/customer
+// @route   GET /api/parcel/customer
 // @access  Private/Customer
 export const getCustomerParcels = async (req, res) => {
     try {
