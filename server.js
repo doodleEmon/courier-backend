@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js'
 import userRoute from './routes/userRoutes.js'
+import parcelRoute from './routes/parcelRoutes.js'
 
 dotenv.config();
 connectDB();
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 // Mount the user routes
 app.use('/api/auth', userRoute);
+app.use('/api/parcel', parcelRoute);
 
 // Start the server and listen for incoming requests
 app.listen(PORT, () => {
