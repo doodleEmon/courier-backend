@@ -5,6 +5,7 @@ import userRoute from './routes/userRoutes.js'
 import parcelRoute from './routes/parcelRoutes.js'
 import http from 'http';
 import { Server } from 'socket.io';
+import cors from 'cors';
 
 dotenv.config();
 connectDB();
@@ -17,6 +18,8 @@ const io = new Server(server, { // Initialize Socket.IO
         methods: ['GET', 'POST'],
     },
 });
+
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
