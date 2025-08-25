@@ -6,6 +6,8 @@ import {
     getAdminParcels,
     updateParcelStatus,
     assignAgentToParcel,
+    updateParcel,
+    deleteParcel,
 } from "../controllers/parcelController.js";
 import { protect, authorize } from "../middleware/authMiddleware.js";
 
@@ -14,6 +16,8 @@ const router = express.Router();
 // Customer APIs
 router.post("/", protect, authorize("Customer"), createParcel);
 router.get("/customer", protect, authorize("Customer"), getCustomerParcels);
+router.put("/:id", protect, authorize("Customer"), updateParcel);
+router.delete("/:id", protect, authorize("Customer"), deleteParcel);
 
 // Delivery Agent APIs
 router.get("/agent", protect, authorize("Agent"), getAgentParcels);

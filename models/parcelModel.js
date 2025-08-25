@@ -41,6 +41,20 @@ const parcelSchema = new mongoose.Schema({
         latitude: { type: Number, default: 0 },
         longitude: { type: Number, default: 0 },
     },
+    recipientName: {
+        type: String,
+        required: true
+    },
+    recipientPhone: {
+        type: String,
+        required: [true, 'Phone number is required'],
+        unique: true,
+        match: [/^(\+88)?01[3-9]\d{8}$/, 'Please enter a valid Bangladeshi phone number']
+    },
+    description: {
+        type: String,
+        required: true
+    },
 
     trackingNumber: String,
     qrCode: String,
