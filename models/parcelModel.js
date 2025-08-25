@@ -12,33 +12,19 @@ const parcelSchema = new mongoose.Schema({
         default: null,
     },
     pickupAddress: {
-        house: { type: String, required: true },
-        street: { type: String, required: true },
-        area: { type: String, required: true },
-        city: { type: String, required: true },
-        district: { type: String, required: true },
-        division: { type: String, required: true },
-        postalCode: { type: String },
-        coordinates: {
-            latitude: { type: Number },
-            longitude: { type: Number }
-        }
+        type: String,
+        required: true
     },
     deliveryAddress: {
-        house: { type: String, required: true },
-        street: { type: String, required: true },
-        area: { type: String, required: true },
-        city: { type: String, required: true },
-        district: { type: String, required: true },
-        division: { type: String, required: true },
-        postalCode: { type: String },
-        coordinates: {
-            latitude: { type: Number },
-            longitude: { type: Number }
-        }
+        type: String,
+        required: true
     },
     parcelSize: {
-        type: String, // e.g., 'Small', 'Medium', 'Large'
+        type: String,
+        required: true,
+    },
+    parcelType: {
+        type: String,
         required: true,
     },
     paymentType: {
