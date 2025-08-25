@@ -34,7 +34,7 @@ const parcelSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Picked Up', 'In Transit', 'Delivered', 'Failed'],
+        enum: ['Pending', 'Accepted', 'Picked Up', 'In Transit', 'Delivered', 'Failed'],
         default: 'Pending',
     },
     currentLocation: {

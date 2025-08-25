@@ -1,5 +1,4 @@
 import Parcel from "../models/parcelModel.js";
-import User from "../models/userModel.js";
 
 // @desc    Create a new parcel
 // @route   POST /api/parcel
@@ -114,95 +113,6 @@ export const deleteParcel = async (req, res) => {
         await Parcel.findByIdAndDelete(req.params.id);
 
         res.status(200).json({ message: "Parcel deleted successfully" });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// @desc    Get parcels assigned to a delivery agent
-// @route   GET /api/parcels/agent
-// @access  Private/Agent
-export const getAgentParcels = async (req, res) => {
-    try {
-        const parcels = await Parcel.find({ agentId: req.user._id });
-        res.status(200).json(parcels);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// @desc    Get all parcels for the admin dashboard
-// @route   GET /api/parcels/admin
-// @access  Private/Admin
-export const getAdminParcels = async (req, res) => {
-    try {
-        const parcels = await Parcel.find()
-            .populate("customerId", "name email")
-            .populate("agentId", "name email");
-
-        res.status(200).json(parcels);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// @desc    Update parcel status
-// @route   PUT /api/parcels/status/:id
-// @access  Private/Agent
-export const updateParcelStatus = async (req, res) => {
-    try {
-        const { status, latitude, longitude } = req.body;
-        const parcel = await Parcel.findById(req.params.id);
-
-        if (!parcel) {
-            return res.status(404).json({ message: "Parcel not found" });
-        }
-
-        if (parcel.agentId && parcel.agentId.toString() !== req.user._id.toString()) {
-            return res.status(403).json({ message: "Not authorized to update this parcel" });
-        }
-
-        parcel.status = status;
-        parcel.currentLocation = { latitude, longitude };
-        await parcel.save();
-
-        // Get the `io` instance from the request
-        const io = req.app.get('socketio');
-
-        // Emit a real-time update
-        io.emit('parcelStatusUpdate', {
-            parcelId: parcel._id,
-            status: parcel.status,
-            currentLocation: parcel.currentLocation,
-        });
-
-        res.status(200).json(parcel);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-// @desc    Assign an agent to a parcel
-// @route   PUT /api/parcels/assign/:id
-// @access  Private/Admin
-export const assignAgentToParcel = async (req, res) => {
-    try {
-        const { agentId } = req.body;
-        const parcel = await Parcel.findById(req.params.id);
-        const agent = await User.findById(agentId);
-
-        if (!parcel) {
-            return res.status(404).json({ message: "Parcel not found" });
-        }
-
-        if (!agent || agent.role !== "Agent") {
-            return res.status(404).json({ message: "Invalid agent ID provided" });
-        }
-
-        parcel.agentId = agentId;
-        await parcel.save();
-
-        res.status(200).json(parcel);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

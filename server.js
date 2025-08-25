@@ -1,8 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js'
-import userRoute from './routes/userRoutes.js'
-import parcelRoute from './routes/parcelRoutes.js'
+import authRoute from './routes/authRoutes.js'
+import customerRoute from './routes/customerRoutes.js'
+import adminRoute from './routes/adminRoutes.js'
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
@@ -33,8 +34,9 @@ app.get('/', (req, res) => {
 });
 
 // Mount the routes
-app.use('/api/auth', userRoute);
-app.use('/api/parcel', parcelRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/customer', customerRoute);
+app.use('/api/admin', adminRoute);
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
