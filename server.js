@@ -4,6 +4,7 @@ import { connectDB } from './config/database.js'
 import authRoute from './routes/authRoutes.js'
 import customerRoute from './routes/customerRoutes.js'
 import adminRoute from './routes/adminRoutes.js'
+import agentRoute from './routes/agentRoutes.js'
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoute);
 app.use('/api/customer', customerRoute);
 app.use('/api/admin', adminRoute);
+app.use('/api/agent', agentRoute);
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
