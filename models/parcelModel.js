@@ -58,6 +58,16 @@ const parcelSchema = new mongoose.Schema({
 
     trackingNumber: String,
     qrCode: String,
+    trackingHistory: [
+        {
+            status: { type: String, required: true },
+            location: {
+                latitude: { type: Number },
+                longitude: { type: Number },
+            },
+            timestamp: { type: Date, default: Date.now },
+        },
+    ],
 }, { timestamps: true });
 
 const Parcel = mongoose.model('Parcel', parcelSchema);
